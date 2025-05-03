@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from groq import Groq
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Load environment variables
@@ -13,13 +14,18 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 # Initialize FastAPI app
 app = FastAPI()
 
-# Root route for GET and HEAD requests
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (you can restrict this to your frontend URL)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
+# Root route
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the Coding Chatbot API!"}
-
-@app.head("/")
-async def root_head():
     return {"message": "Welcome to the Coding Chatbot API!"}
 
 # Request model
