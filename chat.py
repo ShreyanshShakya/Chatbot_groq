@@ -13,7 +13,8 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 # Initialize FastAPI app
 app = FastAPI()
 
-@app.get("/")
+# Root route
+@app.get("/", methods=["GET", "HEAD"])
 async def root():
     return {"message": "Welcome to the Coding Chatbot API! Use the /chat endpoint to interact."}
 
